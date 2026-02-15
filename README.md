@@ -41,7 +41,7 @@ Visit `http://localhost:5173` to start chatting.
 
 ## 📘 Detailed Guides
 
-### PDF RAG (Retrieval-Augmented Generation)
+### Search Engine - PDF RAG (Retrieval-Augmented Generation)
 Chat with your own documents using local vector search:
 1. **Load a Model**: Select your preferred model and click "Load model".
 2. **Upload PDF**: Use the "Upload PDF (RAG)" button.
@@ -63,7 +63,7 @@ You can adjust these settings in `src/main.js` to match your hardware:
 ---
 
 ## 🛠️ AI Development Tools
-Located in the `ai/` folder, these tools help you analyze and optimize GGUF models.
+Located in the `ai/` folder, these tools help you analyze and optimize GGUF models to fit small devices especially without GPU.
 
 ```bash
 # Setup via Conda
