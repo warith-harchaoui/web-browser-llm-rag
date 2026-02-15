@@ -58,6 +58,7 @@ python3 ai/compress.py ../public/models/llama-3.2-1b-q4.gguf --info
 ```bash
 # Automates the Q4_K_M quantization of a raw GGUF
 python3 ai/compress.py my-raw-model.gguf --output ./web-ready.gguf --method q4_k_m
+```
 
 ## 🔋 Runtime Resource Hints
 
