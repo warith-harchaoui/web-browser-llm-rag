@@ -62,10 +62,14 @@ conda activate wllama-ai-tools
 pip install -r ai/requirements.txt
 ```
 # Inspect model metadata
-python3 ai/compress.py public/models/tinyllama-q4.gguf --info
+
+```bash
+python ai/compress.py public/models/tinyllama-q4.gguf --info
 
 # Perform quantization
 python3 ai/compress.py path/to/model.gguf --method q4_k_m
+```
+
 *For more details, see [ai/README.md](./ai/README.md).*
 
 ---
