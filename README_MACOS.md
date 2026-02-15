@@ -18,11 +18,14 @@ We recommend using **Homebrew** to manage packages.
 
 ## 🚀 Installation Steps
 
+git@github.com:warith-harchaoui/web-browser-llm-rag.git
+
 ### 1. Clone the Repository
 Open **Terminal** and run:
 ```bash
-git clone <repository-url>
-cd wllama-tinyllama-chat
+git clone git@github.com:warith-harchaoui/web-browser-llm-rag.git
+
+cd web-browser-llm-rag
 ```
 
 ### 2. Download Models

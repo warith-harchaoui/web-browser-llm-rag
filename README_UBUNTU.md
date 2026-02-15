@@ -24,7 +24,7 @@ sudo apt install -y nodejs
 ### 1. Clone the Repository
 ```bash
 git clone <repository-url>
-cd wllama-tinyllama-chat
+cd web-browser-llm-rag
 ```
 
 ### 2. Download Models

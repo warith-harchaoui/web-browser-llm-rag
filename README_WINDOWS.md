@@ -17,7 +17,7 @@ This guide will help you set up the project on Windows 10/11 using **Git Bash** 
 Open **Git Bash** (Right-click in your folder -> "Open Git Bash here") and run:
 ```bash
 git clone <repository-url>
-cd wllama-tinyllama-chat
+cd web-browser-llm-rag
 ```
 
 ### 2. Download Models

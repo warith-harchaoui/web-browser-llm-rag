@@ -250,6 +250,28 @@ function cosineSimilarity(v1, v2) {
   return dot / (Math.sqrt(m1) * Math.sqrt(m2));
 }
 
+/**
+ * Validates and splits chunks concurrently to fit within token limits.
+ * @param {Array} items - Items to process
+ * @param {Function} fn - Async function to run on each item
+ * @param {number} limit - Max concurrent tasks
+ * @returns {Promise<Array>} - Results of all tasks
+ */
+async function runConcurrent(items, fn, limit) {
+  const results = [];
+  const executing = [];
+  for (const item of items) {
+    const p = fn(item);
+    results.push(p);
+    const e = p.then(() => executing.splice(executing.indexOf(e), 1));
+    executing.push(e);
+    if (executing.length >= limit) {
+      await Promise.race(executing);
+    }
+  }
+  return Promise.all(results);
+}
+
 btnUploadPdf.onclick = () => pdfInput.click();
 
 /**
@@ -304,11 +326,10 @@ pdfInput.onchange = async (e) => {
     }
 
     // Process and validate all chunks
-    const validatedChunks = [];
-    for (const chunk of chunks) {
-      const smallChunks = await ensureChunkSize(chunk);
-      validatedChunks.push(...smallChunks);
-    }
+    // Process and validate all chunks concurrently
+    // We use a concurrency limit (e.g., 4) to avoid overwhelming the tokenizer
+    const results = await runConcurrent(chunks, ensureChunkSize, 4);
+    const validatedChunks = results.flat();
 
     // Update chunks list with valid ones
     const finalChunks = validatedChunks.filter(c => c.length > 0);
@@ -341,10 +362,13 @@ pdfInput.onchange = async (e) => {
       }
     }
 
-    for (let i = 0; i < finalChunks.length; i++) {
-      setStatus(`Indexing: ${i + 1}/${finalChunks.length}…`);
-      await processChunkSafe(finalChunks[i]);
-    }
+    let completed = 0;
+    // Sequential execution for embeddings to ensure stability (concurrency: 1)
+    await runConcurrent(finalChunks, async (chunk) => {
+      await processChunkSafe(chunk);
+      completed++;
+      setStatus(`Indexing: ${completed}/${finalChunks.length}…`);
+    }, 1);
 
     docState = {
       name: file.name,

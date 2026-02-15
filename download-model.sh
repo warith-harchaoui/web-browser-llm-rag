@@ -3,7 +3,7 @@
 # @description Hardened model downloading script for GGUF models.
 # @author Warith Harchaoui
 
-# Automatic model downloader for wllama-tinyllama-chat
+# Automatic model downloader for web-browser-llm-rag
 # Downloads a curated set of high-quality GGUF models optimized for browser usage.
 
 DEST_DIR="public/models"

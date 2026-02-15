@@ -42,7 +42,7 @@ def get_model_info(file_path: str) -> None:
     Notes
     -----
     Uses the 'gguf' library to inspect internal metadata fields, including
-    custom runtime hints embedded for the wllama-tinyllama-chat engine.
+    custom runtime hints embedded for the web-browser-llm-rag engine.
     """
     print(f"\n" + "=" * 50)
     print(f"📊 METADATA FOR: {os.path.basename(file_path)}")
@@ -181,7 +181,7 @@ def main() -> None:
             print(f"   - Target Execution Threads: {args.max_threads}")
         if args.max_ram:
             print(f"   - High-Memory Protection: {args.max_ram} GB")
-        print("\nNote: These runtime hints are optimized for the wllama-tinyllama-chat frontend.")
+        print("\nNote: These runtime hints are optimized for the web-browser-llm-rag frontend.")
 
 
 if __name__ == "__main__":
