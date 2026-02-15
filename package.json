@@ -1,0 +1,19 @@
+{
+  "name": "wllama-tinyllama-chat",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "vite build",
+    "preview": "node scripts/serve.mjs",
+    "postinstall": "node scripts/copy-wllama-assets.mjs"
+  },
+  "dependencies": {
+    "@wllama/wllama": "^2.3.6",
+    "pdfjs-dist": "^5.4.624"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

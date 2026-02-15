@@ -15,39 +15,27 @@ A professional-grade, high-performance chat application that runs Large Language
 
 ## 🚀 Quick Start
 
-### 1. Environment Setup (Node.js 18+)
-If you encounter environment issues on macOS (e.g., `icu4c` linking errors), run:
-```bash
-brew reinstall node
-```
+### Environment Setup 
 
-### 2. Download Models (Hardened)
-We provide an automated, robust script to download a curated set of high-quality, browser-optimized models. It includes verification checks to ensure files are not corrupted during transit:
-```bash
-chmod +x download-model.sh
-./download-model.sh
-```
-This will populate `public/models/` with models like **Llama 3.2 1B**, **Qwen 2.5 1.5B**, and **Phi 3.5 Mini**.
+**New to this project?** Check out our detailed setup guides for your OS:
+- **[Windows Guide](./README_WINDOWS.md)** (Recommended: Use Git Bash)
+- **[macOS Guide](./README_MACOS.md)**
+- **[Ubuntu / Linux Guide](./README_UBUNTU.md)**
 
-### 3. Install & Launch
-```bash
-npm install
-npm run build
-npm run preview
-```
-Visit `http://localhost:5173` to start chatting.
 
 ---
 
 ## 📘 Detailed Guides
 
-### Search Engine - PDF RAG (Retrieval-Augmented Generation)
+### PDF RAG (Retrieval-Augmented Generation)
 Chat with your own documents using local vector search:
 1. **Load a Model**: Select your preferred model and click "Load model".
 2. **Upload PDF**: Use the "Upload PDF (RAG)" button.
 3. **Indexing**: The system extracts text and generates embeddings token-by-token in your browser.
 4. **Interact**: Ask questions about the document. The system retrieves relevant fragments to ground the assistant's response. **Note**: The system automatically manages your embedding engine's state to ensure seamless transitions between retrieval and chat response.
 
+> [!IMPORTANT]
+> **Model Consistency**: Vector embeddings are model-specific. If you switch models, you must re-upload/re-index your PDF to ensure the search remains accurate for the new model's latent space.
 
 ### Multi-Model Selection
 The application automatically scans your `models/` directory.
@@ -63,7 +51,7 @@ You can adjust these settings in `src/main.js` to match your hardware:
 ---
 
 ## 🛠️ AI Development Tools
-Located in the `ai/` folder, these tools help you analyze and optimize GGUF models to fit small devices especially without GPU.
+Located in the `ai/` folder, these tools help you analyze and optimize GGUF models.
 
 ```bash
 # Setup via Conda
@@ -90,8 +78,10 @@ python3 ai/compress.py path/to/model.gguf --method q4_k_m
 
 ---
 
+## 📜 License
+NO LICENSE - Provided as-is.
+
 ## 🙏 Credits
 - **wllama**: [ngxson/wllama](https://github.com/ngxson/wllama)
 - **llama.cpp**: [ggerganov/llama.cpp](https://github.com/ggerganov/llama.cpp)
 - **PDF.js**: [mozilla/pdf.js](https://github.com/mozilla/pdf.js)
-- **Antigravity**: [Google IDE for vibe coding](https://antigravity.google/)

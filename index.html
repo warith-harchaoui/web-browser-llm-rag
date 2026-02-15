@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="author" content="Warith Harchaoui" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Web Browser LLM RAG (CPU-only)</title>
+  <style>
+    :root {
+      color-scheme: light;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 0;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .top {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background: white;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    input {
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    code {
+      background: #f3f3f3;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    #chat {
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      padding: 12px;
+      height: 64vh;
+      overflow: auto;
+      background: #fafafa;
+    }
+
+    .msg {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 12px;
+      white-space: pre-wrap;
+      line-height: 1.35;
+    }
+
+    .user {
+      background: #e9f1ff;
+    }
+
+    .assistant {
+      background: #ffffff;
+      border: 1px solid #eee;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .row>* {
+      flex: 1;
+    }
+
+    .small {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .status {
+      margin-top: 8px;
+    }
+
+    .warn {
+      color: #7a4d00;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <select id="modelSelector">
+        <option value="/models/tinyllama-q4.gguf">Default (TinyLlama)</option>
+      </select>
+      <button id="btnLoad">Load model</button>
+      <button id="btnStop" disabled>Stop</button>
+      <button id="btnUploadPdf">Upload PDF (RAG)</button>
+      <input type="file" id="pdfInput" accept=".pdf" style="display: none;" />
+    </div>
+
+    <div class="status small" id="status">
+      Not loaded. Put your TinyLlama GGUF in <code>public/models/</code> then click “Load model”.
+    </div>
+    <div class="status small warn" id="warn"></div>
+
+    <div id="chat"></div>
+
+    <div class="row">
+      <input id="input" placeholder="Type a message…" autocomplete="off" />
+      <button id="btnSend" disabled>Send</button>
+    </div>
+
+    <!-- <div class="small" style="margin-top:8px;">
+      Tips (4GB RAM): keep replies short; avoid huge paste-ins; context is limited to 1024 tokens by default.
+    </div> -->
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

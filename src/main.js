@@ -133,11 +133,13 @@ async function loadModel(forcedNBatch = null) {
 
     // Load the model weights and specify runtime parameters.
     // - n_ctx: The context window size (2048 handles conversational history + RAG).
-    // - n_batch: The token processing window. Higher values improve throughput but require more RAM.
+    // - n_batch: The logical token processing window.
+    // - n_ubatch: The physical token processing window. MUST be matched to n_batch for adaptive stability.
     // - embeddings: MUST be true to allow the .embeddings() call for RAG features.
     await wllama.loadModelFromUrl(finalUrl, {
       n_ctx: 2048,
       n_batch: batchToUse,
+      n_ubatch: batchToUse,
       offload_kqv: false,
       embeddings: true,
     });
@@ -273,47 +275,84 @@ pdfInput.onchange = async (e) => {
     setStatus(`Analyzing ${chunks.length} fragments…`);
 
     /**
-     * ADAPTIVE BATCHING LOGIC:
-     * We tokenize every chunk before indexing to find the true "token size".
-     * If the document is dense and a chunk exceeds the model's current n_batch, 
-     * we automatically reload the model with a matching power-of-two batch size.
-     * This prevents "Embedding tokens does not fit into batch" crashes.
+     * SMART CHUNK SIZING (Recursive):
+     * The Wllama library (v2.3.6) does not expose 'n_ubatch' in its config, 
+     * forcing a hard physical limit of 512 tokens per batch. 
+     * Instead of reloading the model (which fails), we must strictly ensure 
+     * no chunk exceeds this limit by recursively splitting strictly based on token usage.
      */
-    let maxTokens = 0;
+    async function ensureChunkSize(text) {
+      const tokens = await wllama.tokenize(text);
+      // AGGRESSIVE SAFETY: Limit to 300 tokens to be well under the 512 physical limit.
+      if (tokens.length <= 300) return [text];
+
+      console.log(`RAG Debug: Chunk too large (${tokens.length} tokens). Splitting...`);
+      const mid = Math.floor(text.length / 2);
+      // Try to find a space near the middle to avoid cutting words
+      const searchWindow = text.substring(mid - 50, mid + 50);
+      const spaceRelative = searchWindow.lastIndexOf(" ");
+      const splitIdx = spaceRelative !== -1 ? (mid - 50 + spaceRelative) : mid;
+
+      const left = text.substring(0, splitIdx).trim();
+      const right = text.substring(splitIdx).trim();
+
+      // Recursively process both halves
+      return [
+        ...(left ? await ensureChunkSize(left) : []),
+        ...(right ? await ensureChunkSize(right) : [])
+      ];
+    }
+
+    // Process and validate all chunks
+    const validatedChunks = [];
     for (const chunk of chunks) {
-      const tokens = await wllama.tokenize(chunk);
-      if (tokens.length > maxTokens) maxTokens = tokens.length;
+      const smallChunks = await ensureChunkSize(chunk);
+      validatedChunks.push(...smallChunks);
     }
 
-    // Include a safety margin of 64 tokens.
-    const requiredBatch = maxTokens + 64;
-    console.log(`RAG Debug: Max tokens in chunk: ${maxTokens}. Active Batch: ${activeNBatch}`);
+    // Update chunks list with valid ones
+    const finalChunks = validatedChunks.filter(c => c.length > 0);
+    setStatus(`Indexing ${finalChunks.length} optimized fragments…`);
 
-    if (requiredBatch > activeNBatch) {
-      console.log(`RAG Debug: Required batch ${requiredBatch} exceeds current ${activeNBatch}. Reloading model...`);
-      // Compute the next power of 2 (e.g., 2048, 4096).
-      const nextBatch = Math.pow(2, Math.ceil(Math.log2(requiredBatch)));
-      await loadModel(nextBatch);
-    }
-
-    setStatus(`Indexing ${chunks.length} fragments…`);
     // Ensure embeddings are enabled
     await wllama.setOptions({ embeddings: true });
 
     const embeddings = [];
-    for (let i = 0; i < chunks.length; i++) {
-      setStatus(`Indexing: ${i + 1}/${chunks.length}…`);
-      const output = await wllama.embeddings(chunks[i]);
-      embeddings.push(output);
+    const safeChunks = [];
+
+    // Recursive function to handle runtime embedding failures
+    async function processChunkSafe(text) {
+      try {
+        const output = await wllama.embeddings(text);
+        embeddings.push(output);
+        safeChunks.push(text);
+      } catch (err) {
+        console.warn(`RAG Debug: Embedding failed for chunk ("${text.substring(0, 20)}..."). Reason: ${err.message}`);
+        // If it fails (likely due to batch size), split it further and retry
+        if (text.length < 10) return;
+
+        console.log("RAG Debug: Splitting failing chunk and retrying...");
+        const mid = Math.floor(text.length / 2);
+        const left = text.substring(0, mid).trim();
+        const right = text.substring(mid).trim();
+
+        if (left) await processChunkSafe(left);
+        if (right) await processChunkSafe(right);
+      }
+    }
+
+    for (let i = 0; i < finalChunks.length; i++) {
+      setStatus(`Indexing: ${i + 1}/${finalChunks.length}…`);
+      await processChunkSafe(finalChunks[i]);
     }
 
     docState = {
       name: file.name,
-      chunks,
+      chunks: safeChunks,
       embeddings,
       modelUrl: modelSelector.value,
     };
-    setStatus(`Document loaded ✅ ${file.name} (${chunks.length} chunks)`);
+    setStatus(`Document loaded ✅ ${file.name} (${safeChunks.length} chunks)`);
   } catch (err) {
     console.error(err);
     setWarn(`PDF Error: ${err.message}`);
