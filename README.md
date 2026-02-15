@@ -7,7 +7,7 @@ A professional-grade, high-performance chat application that runs Large Language
 - 💻 **100% Privacy**: All processing occurs locally. No data ever leaves your browser.
 - ⚙️ **CPU-Exclusive**: Forced CPU inference via WebAssembly, ensuring accessibility on devices without dedicated GPUs.
 - ⚡ **Multi-thread Performance**: Leverages `SharedArrayBuffer` for significant speedups on modern multicore processors.
-- 📄 **Advanced PDF RAG**: Upload and chat with PDF documents using local vector embeddings (powered by `pdfjs-dist`). Includes intelligent **Dynamic Toggling** to prevent embedding-generation conflicts.
+- 📄 **PDF RAG**: Upload and chat with PDF documents using local vector embeddings (powered by `pdfjs-dist`).
 - 📦 **Dynamic Multi-Model Support**: Hot-swap between different GGUF models (Llama 3.2, Qwen 2.5, Phi 3.5, etc.) in real-time.
 - 🛠️ **AI Tooling Ecosystem**: Includes built-in Python utilities for model analysis and quantization with runtime resource hinting.
 
