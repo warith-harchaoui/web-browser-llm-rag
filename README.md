@@ -90,10 +90,8 @@ python3 ai/compress.py path/to/model.gguf --method q4_k_m
 
 ---
 
-## 📜 License
-NO LICENSE - Provided as-is.
-
 ## 🙏 Credits
 - **wllama**: [ngxson/wllama](https://github.com/ngxson/wllama)
 - **llama.cpp**: [ggerganov/llama.cpp](https://github.com/ggerganov/llama.cpp)
 - **PDF.js**: [mozilla/pdf.js](https://github.com/mozilla/pdf.js)
+- **Antigravity**: [Google IDE for vibe coding](https://antigravity.google/)
