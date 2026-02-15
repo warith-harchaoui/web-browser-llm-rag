@@ -1,6 +1,6 @@
 /**
  * @file main.js
- * @description Main application logic for the wllama TinyLlama chat.
+ * @description Main application logic for the web browser LLM RAG.
  * @author Warith Harchaoui
  */
 import { Wllama, LoggerWithoutDebug } from "@wllama/wllama";

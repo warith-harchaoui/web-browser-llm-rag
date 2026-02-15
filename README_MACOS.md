@@ -1,4 +1,4 @@
-# 🍎 macOS Setup Guide for wllama TinyLlama Chat
+# 🍎 macOS Setup Guide for web browser LLM RAG
 
 This guide covers setup for macOS (Intel and Apple Silicon).
 

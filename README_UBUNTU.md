@@ -1,4 +1,4 @@
-# 🐧 Ubuntu / Linux Setup Guide for wllama TinyLlama Chat
+# 🐧 Ubuntu / Linux Setup Guide for web browser LLM RAG
 
 This guide covers setup for Ubuntu (20.04+) and Debian-based distributions.
 

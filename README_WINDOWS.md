@@ -1,4 +1,4 @@
-# 🪟 Windows Setup Guide for wllama TinyLlama Chat
+# 🪟 Windows Setup Guide for web browser LLM RAG
 
 This guide will help you set up the project on Windows 10/11 using **Git Bash** for the best compatibility.
 
