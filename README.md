@@ -48,8 +48,6 @@ Chat with your own documents using local vector search:
 3. **Indexing**: The system extracts text and generates embeddings token-by-token in your browser.
 4. **Interact**: Ask questions about the document. The system retrieves relevant fragments to ground the assistant's response. **Note**: The system automatically manages your embedding engine's state to ensure seamless transitions between retrieval and chat response.
 
-> [!IMPORTANT]
-> **Model Consistency**: Vector embeddings are model-specific. If you switch models, you must re-upload/re-index your PDF to ensure the search remains accurate for the new model's latent space.
 
 ### Multi-Model Selection
 The application automatically scans your `models/` directory.
