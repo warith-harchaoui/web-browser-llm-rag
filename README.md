@@ -1,6 +1,6 @@
 # Web Browser LLM RAG (CPU-only, local in-browser)
 
-A professional-grade, high-performance chat application that runs Large Language Models fully **locally in the browser**. Powered by **wllama** (a WebAssembly binding for [llama.cpp](https://github.com/ggerganov/llama.cpp)).
+_Out of curiosity vibe-coded chat application_ that runs Large Language Models fully **locally in the browser**. Powered by **wllama** (a WebAssembly binding for [llama.cpp](https://github.com/ggerganov/llama.cpp)).
 
 [![Video Image](icon.png)](https://www.youtube.com/watch?v=V58Hxhet7HM)
 
