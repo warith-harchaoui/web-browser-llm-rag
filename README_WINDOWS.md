@@ -1,4 +1,4 @@
-# 🪟 Windows Setup Guide for web browser LLM RAG
+# 🪟 Windows Setup Guide for Web Browser LLM RAG
 
 This guide will help you set up the project on Windows 10/11 using **Git Bash** for the best compatibility.
 

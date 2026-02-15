@@ -1,4 +1,4 @@
-# 🍎 macOS Setup Guide for web browser LLM RAG
+# 🍎 macOS Setup Guide for Web Browser LLM RAG
 
 This guide covers setup for macOS (Intel and Apple Silicon).
 
