@@ -67,7 +67,7 @@ pip install -r ai/requirements.txt
 python ai/compress.py public/models/tinyllama-q4.gguf --info
 
 # Perform quantization
-python3 ai/compress.py path/to/model.gguf --method q4_k_m
+python ai/compress.py path/to/model.gguf --method q4_k_m
 ```
 
 *For more details, see [ai/README.md](./ai/README.md).*
