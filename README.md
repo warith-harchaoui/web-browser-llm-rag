@@ -2,6 +2,8 @@
 
 A professional-grade, high-performance chat application that runs Large Language Models fully **locally in the browser**. Powered by **wllama** (a WebAssembly binding for [llama.cpp](https://github.com/ggerganov/llama.cpp)).
 
+[Voir la vidéo](https://www.youtube.com/watch?v=V58Hxhet7HM)
+
 ## 🌟 Core Features
 
 - 💻 **100% Privacy**: All processing occurs locally. No data ever leaves your browser.
